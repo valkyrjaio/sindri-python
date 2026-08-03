@@ -2,117 +2,143 @@
     <img src="https://raw.githubusercontent.com/valkyrjaio/art/refs/heads/master/long-banner/orange/python.png" width="100%">
 </a></p>
 
-# Project Template (Python)
+# Sindri
 
-A starter template for creating new Python repositories in the Valkyrjaio
-organization.
+[Sindri][github sindri] is the build tool and application creator for the
+[Valkyrja][Valkyrja url] Python framework.
 
-This template ships with the full Valkyrja CI pipeline pre-wired (Ruff, mypy,
-Bandit, import-linter, pytest), a minimal [uv][uv url] setup, and the
-repository conventions used across the rest of the org. Use it as the starting
-point for any new Python package, CI tool config, or integration repo — not for
-end-user applications built on the Valkyrja framework (use
-[`valkyrja-starter-app-python`][starter url] for that).
+Sindri scaffolds new Valkyrja applications, generates cache files for faster
+runtime performance, and handles build-time concerns across the Valkyrja
+ecosystem. Named after the dwarven smith in Norse mythology who forged Mjölnir
+and other divine artifacts, Sindri does for your Valkyrja app what his namesake
+did for the gods: crafts the tools and artifacts that make it all work faster
+and better.
 
 <p>
-    <a href="https://pypi.org/project/valkyrja-template/"><img src="https://img.shields.io/pypi/v/valkyrja-template.svg" alt="Latest Version on PyPI"></a>
-    <a href="https://pypi.org/project/valkyrja-template/"><img src="https://img.shields.io/pypi/pyversions/valkyrja-template.svg" alt="Supported Python Version"></a>
-    <a href="https://github.com/valkyrjaio/project-template-python/blob/26.x/LICENSE.md"><img src="https://img.shields.io/github/license/valkyrjaio/project-template-python.svg" alt="License"></a>
-    <a href="https://github.com/valkyrjaio/project-template-python/actions/workflows/ci.yml?query=branch%3A26.x"><img src="https://github.com/valkyrjaio/project-template-python/actions/workflows/ci.yml/badge.svg?branch=26.x" alt="CI Status"></a>
+    <a href="https://pypi.org/project/valkyrja-sindri/"><img src="https://img.shields.io/pypi/v/valkyrja-sindri.svg" alt="Latest Version on PyPI"></a>
+    <a href="https://pypi.org/project/valkyrja-sindri/"><img src="https://img.shields.io/pypi/pyversions/valkyrja-sindri.svg" alt="Supported Python Version"></a>
+    <a href="https://github.com/valkyrjaio/sindri-python/blob/26.x/LICENSE.md"><img src="https://img.shields.io/github/license/valkyrjaio/sindri-python.svg" alt="License"></a>
+    <a href="https://github.com/valkyrjaio/sindri-python/actions/workflows/ci.yml?query=branch%3A26.x"><img src="https://github.com/valkyrjaio/sindri-python/actions/workflows/ci.yml/badge.svg?branch=26.x" alt="CI Status"></a>
 </p>
 
-## Usage
+Status
+------
 
-### Use this template _(recommended)_
+Warning: the Python port is in progress. This repository holds the package, the
+CI pipeline, and the release process. It does not hold the build tool yet.
+Install the package to reserve the dependency, and do not build on it yet.
 
-This repository is a GitHub template. Click the **Use this template** button
-at the top of the repo to create a new repository in the Valkyrjaio
-organization, pre-populated with the template's structure and CI.
+PHP is the reference implementation, and every other port mirrors its structure,
+its naming, and its tests. Read [`PORTS.md`][ports url] for the state of each
+language.
 
-### After Creating Your Repo
+What Sindri Does
+----------------
 
-1. Update `pyproject.toml` with your package's name, description, and metadata
-2. Rename `src/valkyrja/template/` to your component's package and replace its
-   contents with your source code
-3. Update this `README.md` to describe the new package
-4. Configure the required secrets and variables — see
-   [`REPOSITORY_NAMING.md`][repository naming url] for naming guidance and
-   `.github`'s workflow documentation for secret requirements
-5. Verify CI passes on the first commit
+The list below is what the port delivers. Each item exists in the PHP reference
+implementation today.
 
-## What's Included
+- **Scaffolds new Valkyrja applications** — bootstraps a fresh project with the
+  correct structure, entry points, and configuration
+- **Generates cache files** — produces the compiled container, event, and
+  routing data that lets an application skip discovery work at runtime
+- **Builds artifacts** — prepares deployable output for a production runtime
+- **Handles upgrades** — assists with a migration between major Valkyrja
+  versions
 
-- **Full CI pipeline** — the same Ruff, mypy, Bandit, import-linter, and pytest
-  configuration used across every Valkyrjaio Python repo, each isolated under
-  `.github/ci/<tool>/` with its own `pyproject.toml` + `uv.lock`
-- **uv configuration** — a root `pyproject.toml` whose `[tool.poe.tasks]` expose
-  a shortcut for each CI tool, matching the org convention
-- **Repository conventions** — aligned with
-  [`REPOSITORY_NAMING.md`][repository naming url] and
-  [`VOCABULARY.md`][vocabulary url]
+Sindri reads the provider tree with the standard library `ast` and `inspect`
+modules. The framework itself carries no build dependency and no AST
+dependency.
 
-## Running the CI Tools
+Installation
+------------
 
-Every tool is isolated under `.github/ci/<tool>/` with its own `pyproject.toml`
-and `uv.lock`. Drive them through the root [poe][poe url] tasks — each runs the
-tool from its isolated environment (`uv run --project …`) against the repo root:
+Sindri is a development dependency. It never ships to production.
 
-```sh
-uv run poe ci                # run the full CI gate
-uv run poe ruff-format       # auto-format
-uv run poe ruff              # lint
-uv run poe mypy              # type-check
-uv run poe import-linter     # architecture / import boundaries
-uv run poe bandit            # security
-uv run poe pytest-coverage   # tests + 100% coverage
+```bash
+uv add --dev valkyrja-sindri
 ```
 
-## Versioning and Release Process
+```bash
+pip install valkyrja-sindri
+```
 
-This template follows [semantic versioning][semantic versioning url] with a
-major release every year, and support for each major version for 2 years
-from the date of release.
+**Python 3.14 or later is required.**
 
-For more information see our
-[Versioning and Release Process documentation][Versioning and Release Process url].
+Getting Started
+---------------
 
-### Supported Versions
+### Scaffolding a New Application
 
-Bug fixes are provided until 3 months after the next major release. Security
-fixes are provided for 2 years after the initial release.
+```bash
+sindri new your-app-name
+```
 
-| Version | Python | Release        | Bug Fixes Until | Security Fixes Until |
-| :------ | :----- | :------------- | :-------------- | :------------------- |
-| 26      | 3.14+  | March 31, 2026 | Q2 2027         | Q1 2028              |
+This creates a project directory with pre-wired HTTP and CLI entry points,
+example controllers and commands, and a complete configuration scaffold. It is
+equivalent to the [`valkyrja-starter-app-python`][starter url] template, driven
+from the command line.
 
-## Contributing
+### Building Cache Files
 
-This template is an open-source, community-driven project. Improvements to
-the template itself — refinements to the included CI configuration, uv
-setup, or documentation — are welcome.
+```bash
+sindri cache
+```
+
+The cache removes discovery and configuration work from startup. The framework
+runs without it, so the cache is an optimization rather than a requirement.
+
+### Listing Available Commands
+
+```bash
+sindri list
+```
+
+Documentation
+-------------
+
+For framework-level questions about Valkyrja itself, see the
+[Valkyrja framework repository][framework url].
+
+Versioning and Release Process
+------------------------------
+
+Sindri follows [semantic versioning][semantic versioning url] with a major
+release every year, and support for each major version for 2 years from the
+date of release.
+
+For more information see the
+[Versioning and Release Process documentation][versioning url].
+
+Contributing
+------------
+
+Sindri is an open-source, community-driven project. Thank you for your interest
+in helping develop, maintain, and release it.
 
 See [`CONTRIBUTING.md`][contributing url] for the submission process and
-[`VOCABULARY.md`][vocabulary url] for the terminology used across Valkyrja.
+[`VOCABULARY.md`][vocabulary url] for the terminology that Valkyrja uses.
 
-## Security Issues
+Security Issues
+---------------
 
-If you discover a security vulnerability, please follow our
+If you discover a security vulnerability within Sindri, please follow the
 [disclosure procedure][security vulnerabilities url].
 
-## License
+License
+-------
 
-This template is open-source software licensed under the
+Sindri is open-source software licensed under the
 [MIT license][MIT license url]. See [`LICENSE.md`](./LICENSE.md).
 
 [Valkyrja url]: https://valkyrja.io
-[uv url]: https://docs.astral.sh/uv/
-[poe url]: https://poethepoet.natn.io/
+[framework url]: https://github.com/valkyrjaio/valkyrja-python
+[github sindri]: https://github.com/valkyrjaio/sindri-python
 [starter url]: https://github.com/valkyrjaio/valkyrja-starter-app-python
-[repository naming url]: https://github.com/valkyrjaio/.github/blob/26.x/REPOSITORY_NAMING.md
-[vocabulary url]: https://github.com/valkyrjaio/.github/blob/26.x/VOCABULARY.md
-[contributing url]: https://github.com/valkyrjaio/.github/blob/26.x/CONTRIBUTING.md
-[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/26.x/SECURITY.md
-[Versioning and Release Process url]: https://github.com/valkyrjaio/.github/blob/26.x/VERSIONING_AND_RELEASE_PROCESS.md
+[ports url]: https://github.com/valkyrjaio/architecture/blob/26.x/PORTS.md
+[versioning url]: https://github.com/valkyrjaio/architecture/blob/26.x/VERSIONING.md
+[contributing url]: https://github.com/valkyrjaio/.github/blob/master/CONTRIBUTING.md
+[vocabulary url]: https://github.com/valkyrjaio/.github/blob/master/VOCABULARY.md
+[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/master/SECURITY.md
 [semantic versioning url]: https://semver.org/
 [MIT license url]: https://opensource.org/licenses/MIT
-[license url]: ./LICENSE.md
