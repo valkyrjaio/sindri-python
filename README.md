@@ -137,8 +137,8 @@ Sindri is open-source software licensed under the
 [starter url]: https://github.com/valkyrjaio/valkyrja-starter-app-python
 [ports url]: https://github.com/valkyrjaio/architecture/blob/26.x/PORTS.md
 [versioning url]: https://github.com/valkyrjaio/architecture/blob/26.x/VERSIONING.md
-[contributing url]: https://github.com/valkyrjaio/.github/blob/master/CONTRIBUTING.md
-[vocabulary url]: https://github.com/valkyrjaio/.github/blob/master/VOCABULARY.md
-[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/master/SECURITY.md
+[contributing url]: https://github.com/valkyrjaio/.github/blob/26.x/CONTRIBUTING.md
+[vocabulary url]: https://github.com/valkyrjaio/.github/blob/26.x/VOCABULARY.md
+[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/26.x/SECURITY.md
 [semantic versioning url]: https://semver.org/
 [MIT license url]: https://opensource.org/licenses/MIT
