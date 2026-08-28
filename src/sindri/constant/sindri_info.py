@@ -12,5 +12,5 @@ from typing import Final
 class SindriInfo:
     """Package version metadata, updated by the release workflow."""
 
-    VERSION: Final[str] = "26.0.3"
-    VERSION_BUILD_DATE_TIME: Final[str] = "August 27 2026 15:50:22 MST"
+    VERSION: Final[str] = "26.0.4"
+    VERSION_BUILD_DATE_TIME: Final[str] = "August 28 2026 15:54:17 MST"
