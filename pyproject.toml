@@ -1,6 +1,6 @@
 [project]
 name = "valkyrja-sindri"
-version = "26.0.6"
+version = "26.0.7"
 description = "The Valkyrja Python framework build tool and application creator"
 readme = "README.md"
 license = "MIT"
