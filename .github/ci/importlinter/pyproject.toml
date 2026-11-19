@@ -14,8 +14,8 @@ package = false
 root_packages = ["sindri"]
 include_external_packages = true
 
-# Sindri parses source with the stdlib `ast` module only. The contract sees direct
-# imports only, so a transitive dependency still needs review.
+# Sindri parses source with the stdlib `ast` module only. import-linter does not
+# read the imports inside a third-party package, so it misses a forbidden import there.
 [[tool.importlinter.contracts]]
 name = "Sindri does not import a known third-party AST library"
 type = "forbidden"
