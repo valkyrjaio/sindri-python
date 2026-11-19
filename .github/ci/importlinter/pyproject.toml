@@ -9,14 +9,26 @@ dependencies = ["import-linter>=2.15,<3"]
 package = false
 
 # import-linter enforces module boundaries. The root poe task sets PYTHONPATH=src
-# so `sindri` is importable. Add layered/independence contracts here as
-# the package grows — the analog of PHP's phparkitect Rules.
+# so `sindri` is importable.
 [tool.importlinter]
 root_packages = ["sindri"]
+include_external_packages = true
 
-# Example contract to copy once there are layers to enforce:
-# [[tool.importlinter.contracts]]
-# name = "Contracts must not import implementations"
-# type = "forbidden"
-# source_modules = ["sindri.contract"]
-# forbidden_modules = ["sindri.provider"]
+# Sindri parses source with the stdlib `ast` module only. The contract sees direct
+# imports only, so a transitive dependency still needs review.
+[[tool.importlinter.contracts]]
+name = "Sindri does not import a known third-party AST library"
+type = "forbidden"
+source_modules = ["sindri"]
+forbidden_modules = [
+    "ast_grep_py",
+    "astroid",
+    "baron",
+    "griffe",
+    "jedi",
+    "libcst",
+    "parso",
+    "redbaron",
+    "rope",
+    "tree_sitter",
+]
